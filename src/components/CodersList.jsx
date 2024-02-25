@@ -1,7 +1,7 @@
-import useCodePalsList from "../hooks/useCodersList";
+import useCodersList from "../hooks/useCodersList";
 
 const CodersList = () => {
-    const coders = useCodePalsList();
+    const coders = useCodersList();
     console.log(coders);
   return (
     <div>{

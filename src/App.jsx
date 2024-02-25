@@ -1,7 +1,7 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
-import CodePalsList from "./components/CodersList"
 import Header from "./components/Header"
 import About from "./components/About";
+import CodersList from "./components/CodersList";
 
 const AppLayout = () => {
   return (
@@ -19,7 +19,7 @@ const appRouter = createBrowserRouter([
       children:[
           {
               path:"/",
-              element:<CodePalsList/>
+              element:<CodersList/>
           },
           {
               path:"/about",
