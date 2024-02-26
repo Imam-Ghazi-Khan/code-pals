@@ -1,19 +1,19 @@
-import useCodersList from "../hooks/useCodersList";
 import CoderCard from "./CoderCard";
+import coderInfos from "../mocks/coderInfos.json";
 
 const CoderCardLists = () => {
-  
-  const coders = useCodersList();
-  console.log(coders);
-
   return (
-    <div className="flex flex-wrap justify-center p-14 bg-gray-950">
-      {
-      Array.from({ length: 12 }).map((_, i) => (
-          <CoderCard key={i} />
-      ))
-      }
-    </div>
+    <>
+      <h2 className="text-white">CodePals</h2>
+      <div className="flex flex-wrap justify-center">
+        {
+          coderInfos &&
+         coderInfos.map((coderInfo,index)=>(
+          <CoderCard key={index} coderInfo={coderInfo}/>
+         )) 
+        }
+      </div>
+    </>
     // <div>{
     //     coders&&
     //     coders.map((codepal) =>  

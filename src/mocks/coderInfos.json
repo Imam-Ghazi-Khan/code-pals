@@ -1,0 +1,30 @@
+[
+    {
+      "image": "../assets/cypher.png",
+      "title": "ReactJs",
+      "name": "Imam Ghazi Khan",
+      "rating": 4.2,
+      "projects": 2.0,
+      "bio": "Frontend Developer",
+      "price": "Free"
+    },
+    {
+      "image": "../assets/cypher.png",
+      "title": "Jetpack Compose",
+      "name": "Imam Ghazi Khan",
+      "rating": 4.5,
+      "projects": 5.0,
+      "bio": "Android Developer",
+      "price": "Free"
+    },
+    {
+      "image": "../assets/cypher.png",
+      "title": "Spring Boot",
+      "name": "Imam Ghazi Khan",
+      "rating": 4.0,
+      "projects": 5.0,
+      "bio": "Backend Developer",
+      "price": "2$ Per Hour"
+    }
+  ]
+  

@@ -4,5 +4,7 @@
 
 body{
     margin-top: 80px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(3 7 18 / var(--tw-bg-opacity));
 }
 
