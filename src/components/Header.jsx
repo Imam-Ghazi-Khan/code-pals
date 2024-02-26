@@ -1,14 +1,21 @@
 const Header = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 p-8 bg-gray-800 flex justify-between text-white">
-      <div className="">CodePals</div>
-      <ul className="flex space-x-4">
-        <li>Home</li>
-        <li>Contact</li>
-        <li>Profile</li>
-      </ul>
+    <div className="fixed top-0 left-0 right-0 p-8 bg-gray-900 flex flex-col md:flex-row items-center justify-between text-white z-50">
+      <div className="font-bold text-2xl mb-4 md:mb-0 md:mr-8">&lt; / &gt; CODE-PALS</div>
+      <div className="flex">
+        <button
+          className="mr-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Log In
+        </button>
+        <button
+          className="bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Sign Up
+        </button>
+      </div>
     </div>
-    )
-}
+  );
+};
 
-export default Header
+export default Header;
