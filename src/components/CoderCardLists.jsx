@@ -3,9 +3,12 @@ import coderInfos from "../mocks/coderInfos.json";
 
 const CoderCardLists = () => {
   return (
-    <>
-      <h2 className="text-white">CodePals</h2>
-      <div className="flex flex-wrap justify-center">
+    <div className="mt-32">
+
+      {/* All CodePals */}
+      <p className="ml-10 text-2xl text-white font-bold">CodePals</p>
+      <div className="flex overflow-x-scroll">
+      <div className="flex ">
         {
           coderInfos &&
          coderInfos.map((coderInfo,index)=>(
@@ -13,13 +16,37 @@ const CoderCardLists = () => {
          )) 
         }
       </div>
-    </>
-    // <div>{
-    //     coders&&
-    //     coders.map((codepal) =>  
-    //       <ul key={codepal._id}>{codepal.login}</ul>
-    //     )
-    // }</div
+      </div>
+
+
+      {/* Free CodePals */}
+      <p className="ml-10 text-2xl text-white font-bold">FreePals</p>
+      <div className="flex overflow-x-scroll">
+        <div className="flex">
+          {
+            coderInfos && 
+          coderInfos.map((coderInfo,index)=>(
+            coderInfo.price=="Free" &&
+            <CoderCard key={index} coderInfo={coderInfo}/>
+          )) 
+          }
+        </div>
+      </div>
+
+      {/* Paid CodePals */}
+      <p className="ml-10 text-2xl text-white font-bold">PaidPals</p>
+      <div className="flex overflow-x-scroll">
+      <div className="flex justify-center">
+        {
+          coderInfos && 
+         coderInfos.map((coderInfo,index)=>(
+          coderInfo.price!=="Free" &&
+          <CoderCard key={index} coderInfo={coderInfo}/>
+         )) 
+        }
+      </div>
+      </div>
+    </div>
   )
 }
 
