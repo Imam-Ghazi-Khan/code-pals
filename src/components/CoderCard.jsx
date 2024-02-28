@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CYPHERIMG from "../assets/cypher.png"
 
 const CoderCard = ({coderInfo}) => {
@@ -5,7 +6,8 @@ const CoderCard = ({coderInfo}) => {
   const {title,name,rating,projects,bio,price} = coderInfo;
   
   return (
-       <div className="m-8 mt-12 cursor-pointer rounded-2xl shadow-md w-[280px] bg-gray-900 text-white">
+    <Link to="/profile">
+        <div className="m-8 mt-12 cursor-pointer rounded-2xl shadow-md w-[280px] bg-gray-900 text-white">
        <div className="relative">
          <img className="absolute -top-6 left-4 w-32 h-32 rounded-2xl object-cover" src={CYPHERIMG} alt="Profile" />
        </div>
@@ -19,6 +21,7 @@ const CoderCard = ({coderInfo}) => {
          <p className="text-green-500 pl-4 pt-4 pb-4">{price}</p>
        </div>
      </div>
+    </Link>
   )
 }
 

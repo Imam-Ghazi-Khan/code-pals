@@ -1,7 +1,7 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
 import Header from "./components/Header"
-import About from "./components/About";
 import CoderCardLists from "./components/CoderCardLists";
+import CoderProfile from "./components/CoderProfile";
 
 const AppLayout = () => {
   return (
@@ -22,9 +22,9 @@ const appRouter = createBrowserRouter([
               element:<CoderCardLists/>
           },
           {
-              path:"/about",
-              element: <About/>
-          },
+            path:"/profile",
+            element:<CoderProfile/>
+        },
       ],
   },
 ]);
