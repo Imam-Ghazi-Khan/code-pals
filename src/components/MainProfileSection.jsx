@@ -13,7 +13,6 @@ const MainProfileSection = () => {
         </div>
       </div>
       </div>
-      {/* Bunch of profile cards here */}
     </div>
     )
 }
