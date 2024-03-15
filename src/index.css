@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 body{
-    margin-top: 100px;
+    /* margin-top: 100px; */
     background-color: rgb(3 7 18 / 1);
 }
 
 @media (max-width: 640px) {
-    body{
+    /* body{
         margin-top: 150px;
-    }
+    } */
 }
 

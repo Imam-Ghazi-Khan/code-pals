@@ -2,7 +2,7 @@ import ProfileIcon from "../assets/cypher.png"
 
 const MainProfileSection = () => {
   return (
-    <div className="text-white w-full p-36 bg-gradient-to-b from-violet-500 to-black relative">
+    <div className="mt-20 text-white w-full p-36 bg-gradient-to-b from-violet-500 to-black relative">
       <div className="absolute flex align-middle top-20 left-12">
       <img className="md:w-32 w-28 rounded-full" src={ProfileIcon} alt="" />     
       <div className="p-4">
