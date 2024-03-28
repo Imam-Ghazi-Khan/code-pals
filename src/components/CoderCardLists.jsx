@@ -1,7 +1,22 @@
 import CoderCard from "./CoderCard";
 import coderInfos from "../mocks/coderInfos.json";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const CoderCardLists = () => {
+  
+  const navigate = useNavigate();
+
+  const {user,setUser} = useContext(UserContext);
+
+  useEffect(()=>{  
+    if(!user) {
+      navigate("/login");
+    }
+  },[])
+
+
   return (
     <div className="mt-32">
 
