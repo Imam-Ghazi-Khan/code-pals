@@ -4,13 +4,14 @@ import CoderCardLists from "./components/CoderCardLists";
 import CoderProfile from "./components/CoderProfile";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import { UserProvider } from "./contexts/UserContext";
 
 const AppLayout = () => {
   return (
-    <>
+    <UserProvider>
       <Header/>
       <Outlet/>
-    </>
+    </UserProvider>
   )
 }
 

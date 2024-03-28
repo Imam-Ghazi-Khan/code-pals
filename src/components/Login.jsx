@@ -3,10 +3,11 @@ import CypherIMG from '../assets/cypher.png'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 
 const Login = () => {
 
-  // const {user,setUser} = useContext(UserContext);
+  const {user,setUser} = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -17,7 +18,8 @@ const Login = () => {
     signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
       .then((userCredential) => {
         const user = userCredential.user;
-        alert("Login Successfull by User:"+user);
+        setUser(user);
+        alert("Login Successfull");
         navigate("/");
       })
       .catch((error) => {
