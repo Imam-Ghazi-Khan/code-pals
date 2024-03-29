@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import CypherIMG from '../assets/cypher.png'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
@@ -7,27 +7,28 @@ import { UserContext } from '../contexts/UserContext';
 
 const Login = () => {
 
-  const {user,setUser} = useContext(UserContext);
+  const {user,setUser,isLoggedIn} = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
 
-  const handleSignInButton = () => {
-    signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setUser(user);
-        alert("Login Successfull");
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode+"\n"+errorMessage);
-      });
-  }
+  useEffect(()=>{
+    if(isLoggedIn) navigate("/");
+  }, [isLoggedIn, navigate])
+
+  const handleSignInButton = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
+      const user = userCredential.user;
+      setUser(user);
+      alert('Login Successful');
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    } 
+  };
 
   return (
     <div className=' text-white h-screen flex justify-between'>

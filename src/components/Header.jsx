@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { getDatabase, ref, set } from "firebase/database";
 import ProfileIcon from "../assets/cypher.png"
@@ -10,7 +10,7 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  const {user,isLoggedIn} = useContext(UserContext);
+  const {setUser,isLoggedIn,setIsLoggedIn,setUserProfileData} = useContext(UserContext);
 
 
   const handleSignOut = () => {
@@ -25,41 +25,46 @@ const Header = () => {
       })
   }
 
-  
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          firebaseUser
+        });
+        setIsLoggedIn(true);
+        setUserProfileData(null);
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+        setUserProfileData(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [isLoggedIn]);
 
 
-
-  // function writeUserData(userId, name, email, imageUrl) {
-  //   const db = getDatabase();
-  //   set(ref(db, 'users/' + userId), {
-  //     username: name,
-  //     email: email,
-  //     profile_picture : imageUrl
-  //   });
-  // }
-
-  // writeUserData(1,2,3,4);
 
   return (
-    <div className="fixed top-0 left-0 right-0 p-8 bg-gray-900 flex flex-col md:flex-row items-center justify-between text-white z-50">
-      <Link to={"/"}><div className="font-bold text-2xl mb-4 md:mb-0 md:mr-8 cursor-pointer">&lt; / &gt; CODE-PALS</div></Link>
+    <div className="fixed top-0 left-0 right-0 p-7 bg-gray-900 flex flex-col md:flex-row items-center justify-between text-white z-50">
+      <Link to={"/createProfile"}><div className="font-bold text-xl mb-4 md:mb-0 md:mr-8 cursor-pointer">&lt; / &gt; CODE-PALS</div></Link>
       <div className="flex">
 
         {isLoggedIn 
         &&
-        <img onClick={handleSignOut} className="md:w-16 w-16 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
+        <img onClick={handleSignOut} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
         }
         
         {!isLoggedIn && <Link to={"/login"}>
           <button
-            className="mr-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+            className="mr-4 bg-gray-700 text-white font-bold py-1 px-4 rounded-full"
           >
             Log In
           </button>
         </Link>}
        {!isLoggedIn && <Link to={"/signup"}>
           <button
-            className="bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold py-1 px-4 rounded-full"
           >
             Sign Up
           </button>

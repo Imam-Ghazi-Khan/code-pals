@@ -5,6 +5,7 @@ import CoderProfile from "./components/CoderProfile";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import { UserProvider } from "./contexts/UserContext";
+import CreateProfile from "./components/CreateProfile";
 
 const AppLayout = () => {
   return (
@@ -35,6 +36,10 @@ const appRouter = createBrowserRouter([
           {
             path:"/signUp",
             element:<SignUp/>
+          },
+          {
+            path:"/createProfile",
+            element:<CreateProfile/>
           },
       ],
   },

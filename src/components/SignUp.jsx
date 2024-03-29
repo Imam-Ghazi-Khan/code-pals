@@ -19,8 +19,8 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
       .then((userCredential) => {
         const user = userCredential.user;
-        alert("Sign Up successful,you may now Login");
-        navigate("/")
+        alert("Sign Up successful");
+        navigate("/createProfile")
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -54,4 +54,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUp;
