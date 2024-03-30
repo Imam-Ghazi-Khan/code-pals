@@ -3,10 +3,10 @@ import CYPHERIMG from "../assets/cypher.png"
 
 const CoderCard = ({coderInfo}) => {
 
-  const {title,name,rating,projects,bio,price} = coderInfo;
+  const {userId,title,name,rating,projects,bio,price} = coderInfo;
   
   return (
-    <Link to="/profile">
+    <Link to={`profile/${userId}`}>
         <div className="m-8 mt-12 cursor-pointer rounded-2xl shadow-md w-[280px] bg-gray-900 text-white">
        <div className="relative">
          <img className="absolute -top-6 left-4 w-32 h-32 rounded-2xl object-cover" src={CYPHERIMG} alt="Profile" />

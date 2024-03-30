@@ -26,7 +26,7 @@ const appRouter = createBrowserRouter([
               element:<CoderCardLists/>
           },
           {
-            path:"/profile",
+            path:"/profile/:userId",
             element:<CoderProfile/>
           },
           {

@@ -10,7 +10,7 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  const {setUser,isLoggedIn,setIsLoggedIn,setUserProfileData} = useContext(UserContext);
+  const {user,setUser,isLoggedIn,setIsLoggedIn,setUserProfileData,setUserProfileDataObject} = useContext(UserContext);
 
 
   const handleSignOut = () => {
@@ -33,10 +33,12 @@ const Header = () => {
         });
         setIsLoggedIn(true);
         setUserProfileData(null);
+        setUserProfileDataObject(null);
       } else {
         setUser(null);
         setIsLoggedIn(false);
         setUserProfileData(null);
+        setUserProfileDataObject(null);
       }
     });
 
@@ -52,7 +54,7 @@ const Header = () => {
 
         {isLoggedIn 
         &&
-        <img onClick={handleSignOut} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
+        <img onClick={()=>navigate("/profile/"+user.firebaseUser.uid)} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
         }
         
         {!isLoggedIn && <Link to={"/login"}>

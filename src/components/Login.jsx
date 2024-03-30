@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import CypherIMG from '../assets/cypher.png'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
@@ -11,24 +11,25 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const [email,setEmail] = useState("cypher@dedsec.com");
+  const [password,setPassword] = useState("cypher@dedsec");
 
   useEffect(()=>{
     if(isLoggedIn) navigate("/");
   }, [isLoggedIn, navigate])
 
-  const handleSignInButton = async () => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-      const user = userCredential.user;
-      setUser(user);
-      alert('Login Successful');
-      navigate('/');
-    } catch (error) {
-      console.log(error);
-    } 
-  };
+  const handleSignInButton = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        setUser(user);
+        alert("Login Successfull");
+        navigate("/");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
 
   return (
     <div className=' text-white h-screen flex justify-between'>
@@ -39,17 +40,22 @@ const Login = () => {
         <div>
           <h1 className='mt-4 font-bold text-2xl'>Login</h1>
           <p className='mt-4'>Enter your Email</p>
-          <input ref={emailRef} className=' mt-4 bg-transparent border p-2 md:pr-[50%]' type="text" placeholder="Email"/>
+          <input value={email} onChange={(e)=>setEmail(e.target.value)} className=' mt-4 bg-transparent border p-2 md:pr-[50%]' type="text" placeholder="Email"/>
           <p className='mt-4'>Enter your Password</p>
-          <input ref={passwordRef} className='mt-4 bg-transparent border p-2 md:pr-[50%]' type="text" placeholder='Password'/>
+          <input value={password} onChange={(e)=>setPassword(e.target.value)} className='mt-4 bg-transparent border p-2 md:pr-[60%]' type="text" placeholder='Password'/>
         </div>
+
+        <div>
         <button
             className="mt-4 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold py-2 px-4 rounded-full"
             onClick={handleSignInButton}
             type='submit'
           >
             Log In
-          </button>      
+          </button>          
+           
+        </div>
+   
         </div>
       </div>
     </div>
