@@ -47,7 +47,7 @@ const Header = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 p-7 bg-gray-900 flex flex-col md:flex-row items-center justify-between text-white z-50">
-      <Link to={"/createProfile"}><div className="font-bold text-xl mb-4 md:mb-0 md:mr-8 cursor-pointer">&lt; / &gt; CODE-PALS</div></Link>
+      <Link to={"/"}><div className="font-bold text-xl mb-4 md:mb-0 md:mr-8 cursor-pointer">&lt; / &gt; CODE-PALS</div></Link>
       <div className="flex">
 
         {isLoggedIn 
