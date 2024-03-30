@@ -70,6 +70,7 @@ const CreateProfile = () => {
     setPrice('');
     setGithub('');
     setWebsite('');
+    navigate("/");
   };
 
   return (

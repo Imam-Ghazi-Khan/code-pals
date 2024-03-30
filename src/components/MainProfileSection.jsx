@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { UserContext } from "../contexts/UserContext";
 import { signOut } from "firebase/auth";
+import StarRating from "./StarRating";
 
 
 const MainProfileSection = ({userData}) => {  
@@ -13,6 +14,8 @@ const MainProfileSection = ({userData}) => {
 
   const {user,isLoggedInUserProfile,setIsLoggedInUserProfile} = useContext(UserContext);
   const [loggedInUserId,setLoggedInUserId] = useState(useParams().userId);
+
+  const [rating, setRating] = useState(0); 
 
   useEffect(()=>{
     if(loggedInUserId && user.firebaseUser.uid){
@@ -54,9 +57,10 @@ const MainProfileSection = ({userData}) => {
             ?
           <button onClick={handleSignOut} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Logout</button>
             :
-          <div className="md:flex">
+          <div className="">
             <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Send Request</button>
-            <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Give Rating</button>
+            {/* <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Give Rating</button> */}
+            <StarRating onChange={(value)=>setRating(value)} />
           </div>
         }
        </div>
