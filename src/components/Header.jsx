@@ -10,20 +10,8 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  const {user,setUser,isLoggedIn,setIsLoggedIn,setUserProfileData,setUserProfileDataObject} = useContext(UserContext);
+  const {user,setUser,isLoggedIn,setIsLoggedIn,setUserProfileData,setUserProfileDataObject,isLoggedInUserProfile,setIsLoggedInUserProfile} = useContext(UserContext);
 
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(()=>{
-        navigate("/login");
-        //don't worry about removing user from context api
-        //onAuthStateChanged in UserContext is taking care of that 
-      })
-      .catch((error)=>{
-        navigate("/error");
-      })
-  }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
@@ -43,7 +31,7 @@ const Header = () => {
     });
 
     return () => unsubscribe();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setIsLoggedIn, setUser, setUserProfileData, setUserProfileDataObject]);
 
 
 
@@ -54,7 +42,9 @@ const Header = () => {
 
         {isLoggedIn 
         &&
-        <img onClick={()=>navigate("/profile/"+user.firebaseUser.uid)} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
+        <img onClick={()=>{
+          navigate("/profile/"+user.firebaseUser.uid);
+        }} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
         }
         
         {!isLoggedIn && <Link to={"/login"}>

@@ -11,8 +11,8 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const [email,setEmail] = useState("cypher@dedsec.com");
-  const [password,setPassword] = useState("cypher@dedsec");
+  const [email,setEmail] = useState("test@test.test");
+  const [password,setPassword] = useState("test@test");
 
   useEffect(()=>{
     if(isLoggedIn) navigate("/");
