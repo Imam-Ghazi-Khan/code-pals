@@ -11,18 +11,20 @@ const MainProfileSection = ({userData}) => {
 
   const navigate = useNavigate();
 
-  // const {user} = UserContext(UserContext);
-  // const [userId,setUserId] = useState(user.firebaseUser.uid);
-  // const [loggedInUserId,setLoggedInUserId] = (useParams);
-  // const [isLoggedInUserProfile,setIsLoggedInUserProfile] = useState(false);
+  const {user} = useContext(UserContext);
+  const [loggedInUserId,setLoggedInUserId] = useState(useParams().userId);
+  const [isLoggedInUserProfile,setIsLoggedInUserProfile] = useState(false);
 
-  // useEffect(()=>{
-  //   if(user && userId){
-  //     if(user===userId){
-  //       setIsLoggedInUserProfile(true);
-  //     }
-  //   }
-  // },[])
+  useEffect(()=>{
+    if(loggedInUserId && user.firebaseUser.uid){
+      if(user.firebaseUser.uid===loggedInUserId){
+        setIsLoggedInUserProfile(true);
+      }
+      else{
+        setIsLoggedInUserProfile(false);
+      }
+    }
+  },[loggedInUserId, user.firebaseUser.uid])
 
   const handleSignOut = () => {
     signOut(auth)
@@ -47,7 +49,11 @@ const MainProfileSection = ({userData}) => {
           <div className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">♂️ {userData.age}</div>
           <div className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30">🟢 Online</div>
         </div>
+        {
+         isLoggedInUserProfile
+          &&
           <button onClick={handleSignOut} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Logout</button>
+        }
         </div>
 
       </div>
