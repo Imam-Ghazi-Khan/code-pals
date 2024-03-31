@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth } from "../utils/firebase";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { getDatabase, ref, set } from "firebase/database";
 import ProfileIcon from "../assets/cypher.png"
@@ -14,6 +14,7 @@ const Header = () => {
 
 
   useEffect(() => {
+
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         setUser({
@@ -40,13 +41,15 @@ const Header = () => {
       <Link to={"/"}><div className="font-bold text-xl mb-4 md:mb-0 md:mr-8 cursor-pointer">&lt; / &gt; CODE-PALS</div></Link>
       <div className="flex">
 
-        {isLoggedIn 
-        &&
-        <img onClick={()=>{
-          navigate("/profile/"+user.firebaseUser.uid);
-        }} className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
-        }
-        
+          {isLoggedIn 
+          &&
+          <img onClick={()=>{
+            setIsLoggedInUserProfile(true);
+            navigate("/profile/"+user.firebaseUser.uid);
+          }
+          } className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
+          }  
+
         {!isLoggedIn && <Link to={"/login"}>
           <button
             className="mr-4 bg-gray-700 text-white font-bold py-1 px-4 rounded-full"

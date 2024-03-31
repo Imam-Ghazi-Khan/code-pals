@@ -26,7 +26,7 @@ const MainProfileSection = ({userData}) => {
         setIsLoggedInUserProfile(false);
       }
     }
-  },[loggedInUserId, user.firebaseUser.uid, isLoggedInUserProfile, setIsLoggedInUserProfile])
+  },[])
 
   const handleSignOut = () => {
     signOut(auth)
@@ -57,10 +57,9 @@ const MainProfileSection = ({userData}) => {
             ?
           <button onClick={handleSignOut} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Logout</button>
             :
-          <div className="">
+          <div>
             <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Send Request</button>
             {/* <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Give Rating</button> */}
-            <StarRating onChange={(value)=>setRating(value)} />
           </div>
         }
        </div>

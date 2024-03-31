@@ -61,12 +61,12 @@ const CoderCardLists = () => {
           ))}
         </div>
       </div>
-            {/* Free CodePals */}
+      {/* Free CodePals */}
       <p className="ml-10 text-2xl text-white font-bold">FreePals</p>
       <div className="flex overflow-x-scroll">
         <div className="flex">
           {
-            coderInfos && 
+          coderInfos && 
           coderInfos.map((coderInfo,index)=>(
             (coderInfo.price=="Free" || coderInfo.price=="free") &&
             <CoderCard key={index} coderInfo={coderInfo}/>
