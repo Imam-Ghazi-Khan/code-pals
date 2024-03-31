@@ -51,7 +51,7 @@ const CoderCardLists = () => {
   };
 
   return (
-    <div className="mt-32">
+    <div className="mt-40">
       {/* CodePals */}
       <p className="ml-10 text-2xl text-white font-bold">CodePals</p>
       <div className="flex overflow-x-scroll">

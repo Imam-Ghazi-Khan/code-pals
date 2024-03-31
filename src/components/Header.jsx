@@ -47,7 +47,7 @@ const Header = () => {
             setIsLoggedInUserProfile(true);
             navigate("/profile/"+user.firebaseUser.uid);
           }
-          } className="md:w-12 w-8 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
+          } className="w-12 rounded-full cursor-pointer" src={ProfileIcon} alt="" />     
           }  
 
         {!isLoggedIn && <Link to={"/login"}>

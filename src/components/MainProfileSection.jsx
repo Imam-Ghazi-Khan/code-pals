@@ -41,7 +41,7 @@ const MainProfileSection = ({userData}) => {
   }
   
   return (
-    <div className="mt-20 text-white md:p-36 p-48 bg-gradient-to-b from-violet-500 to-black relative">
+    <div className="mt-20 text-white md:p-36 p-48 bg-gradient-to-b from-violet-500 to-black relative md:text-lg">
       <div className="absolute top-20 left-12">
         <div className="md:flex">
         <img className="md:w-32 w-28 p-2 rounded-full" src={ProfileIcon} alt="" />     
