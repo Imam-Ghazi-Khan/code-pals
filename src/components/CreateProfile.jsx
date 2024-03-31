@@ -74,7 +74,7 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className=" mt-40 px-60 text-white">
+    <div className="mt-40 p-4 md:mt-40 md:px-60 text-white">
       <div className=" px-10 py-4 bg-blue-950 bg-opacity-50 rounded-lg">
         <h1 className="text-2xl font-bold mb-4">Create Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
