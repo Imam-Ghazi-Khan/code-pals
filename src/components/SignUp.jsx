@@ -19,6 +19,7 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user.uid);
         alert("Sign Up successful");
         navigate("/createProfile")
       })

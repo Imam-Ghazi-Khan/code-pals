@@ -11,8 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const {user,setUser,isLoggedIn,setIsLoggedIn,setUserProfileData,setUserProfileDataObject,isLoggedInUserProfile,setIsLoggedInUserProfile} = useContext(UserContext);
-
-
+  
   useEffect(() => {
 
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {

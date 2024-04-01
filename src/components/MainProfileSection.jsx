@@ -49,7 +49,7 @@ const MainProfileSection = ({userData}) => {
           <h1 className="pl-2 md:text-4xl text-2xl font-bold">{userData?userData.name:'The Watcher'}</h1>
           <div className="md:flex justify-between w-[80vw]">
           <div className="flex align-middle py-2">
-            <div className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">♂️ {userData.age}</div>
+            <div className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">♂️ {userData?userData.age:'22'}</div>
             <div className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30">🟢 Online</div>
           </div>
 

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MainProfileSection from "./MainProfileSection";
 import SecondaryProfileSection from "./SecondaryProfileSection";
 import { UserContext } from "../contexts/UserContext";
@@ -6,12 +6,17 @@ import { useContext, useEffect, useState } from "react";
 
 const CoderProfile = () => {
 
-  const {userProfileDataObject} = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const {user,userProfileDataObject} = useContext(UserContext);
   const {userId} = useParams();
   const [userData,setUserData] = useState(null);
 
   useEffect(()=>{
-  if(userProfileDataObject) setUserData(userProfileDataObject[userId]);
+  if(userProfileDataObject) {
+    if(!userProfileDataObject[user.firebaseUser.uid]) navigate("/createProfile");
+    setUserData(userProfileDataObject[userId]);
+  }
   },[userProfileDataObject,userId])
 
   return (

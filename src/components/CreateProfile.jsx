@@ -5,7 +5,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { getDatabase, ref, set } from 'firebase/database';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { database } from '../utils/firebase';
+import { auth, database } from '../utils/firebase';
+import { signOut } from 'firebase/auth';
 
 const CreateProfile = () => {
   const { user, isLoggedIn } = useContext(UserContext);
@@ -20,10 +21,22 @@ const CreateProfile = () => {
   const [github, setGithub] = useState('');
   const [website, setWebsite] = useState('');
   
-
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(()=>{
+        navigate("/login");
+        //don't worry about removing user from context api
+        //onAuthStateChanged in UserContext is taking care of that 
+      })
+      .catch((error)=>{
+        navigate("/error");
+      })
+  }
+  
 
 
   useEffect(() => {
+    
     if (!isLoggedIn) {
       navigate('/login'); // Redirect to login page if user is not logged in
     }
@@ -121,11 +134,13 @@ const CreateProfile = () => {
               <input placeholder='WebsiteLink' id="website" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} required className="bg-transparent border border-white rounded-md p-2 w-full" />
               </div>
     
-              
-              <button type="submit" className="my-4 py-2 px-4 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold rounded-full">Create Profile</button>
-    
+          <button type="submit" className="my-4 py-2 px-4 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold rounded-full">Create Profile</button>
           
         </form>
+
+        <button onClick={handleSignOut} className="my-4 py-2 px-4 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold rounded-full">Logout</button>
+
+
       </div>
     </div>
   );
