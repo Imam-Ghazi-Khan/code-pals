@@ -1,16 +1,16 @@
-
-
-
 import React, { useContext, useEffect, useState } from 'react';
 import { getDatabase, ref, set } from 'firebase/database';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { auth, database } from '../utils/firebase';
+import { auth, database, storage } from '../utils/firebase';
 import { signOut } from 'firebase/auth';
+import {  ref as storageRef, getDownloadURL, uploadBytesResumable } from '@firebase/storage';
 
 const CreateProfile = () => {
   const { user, isLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const [imageUrl, setImageUrl] = useState('');
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -33,7 +33,23 @@ const CreateProfile = () => {
       })
   }
   
-
+  const handleImageUpload = (e) => {
+    const image = e.target.files[0];
+    if (image) {
+      try {
+        const storageReference = storageRef(storage, `images/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageReference, image);
+  
+        uploadTask.on('state_changed', null, console.error, () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageUrl(downloadURL);
+          });
+        });    
+      } catch (error) {
+        console.log(error);    
+      }
+    }
+  };
 
   useEffect(() => {
     
@@ -57,6 +73,7 @@ const CreateProfile = () => {
 
     try {
       await set(ref(database, 'profiles/' + userId), {
+        image:imageUrl,
         userId: userId,
         title: title,
         name: name,
@@ -75,6 +92,7 @@ const CreateProfile = () => {
     }
 
     // Reset form fields
+    setImageUrl('');
     setName('');
     setAge('');
     setTitle('');
@@ -91,8 +109,9 @@ const CreateProfile = () => {
       <div className=" px-10 py-4 bg-blue-950 bg-opacity-50 rounded-lg">
         <h1 className="text-2xl font-bold mb-4">Create Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-             
+         
+          <input type="file" onChange={handleImageUpload} />
+
             <div>
               <label htmlFor="name" className="block text-white">Name:</label>
               <input placeholder='Jason Mamoa' id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required className="bg-transparent border border-white rounded-md p-2 w-full" />
