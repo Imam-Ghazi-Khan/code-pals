@@ -12,6 +12,8 @@ const CoderProfile = () => {
   const {userId} = useParams();
   const [userData,setUserData] = useState(null);
 
+  const [plzReRender,setPlzReRender] = useState(false);
+
   useEffect(()=>{
   if(userProfileDataObject) {
     if(!userProfileDataObject[user.firebaseUser.uid]) navigate("/createProfile");
@@ -22,8 +24,8 @@ const CoderProfile = () => {
   return (
     <div>
       {userData && <div>
-        <MainProfileSection userData={userData}/>
-        <SecondaryProfileSection userData={userData}/>
+        <MainProfileSection userData={userData} setPlzReRender={setPlzReRender}/>
+        <SecondaryProfileSection userData={userData} plzReRender={plzReRender}/>
       </div>}
     </div>
   )

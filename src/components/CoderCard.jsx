@@ -3,7 +3,7 @@ import CYPHERIMG from "../assets/cypher.png"
 
 const CoderCard = ({coderInfo}) => {
 
-  const {image,userId,title,name,rating,projects,bio,price} = coderInfo;
+  const {image,userId,title,name,rating,bio,price} = coderInfo;
   
   return (
     <Link to={`profile/${userId}`}>
@@ -16,7 +16,7 @@ const CoderCard = ({coderInfo}) => {
           <h4 className="text-xl font-bold">{title}</h4>
         </div>
          <h3 className="text-lg font-semibold pl-4 pt-4">{name}</h3>
-         <h5 className="text-md text-yellow-500 pl-4 pt-4">⭐ {rating} ({projects})</h5>
+         <h5 className="text-md text-yellow-500 pl-4 pt-4">⭐ {rating}</h5>
          <p className="pl-4 pt-4 text-gray-400">{bio}</p>
          <p className="text-green-500 pl-4 pt-4 pb-4">{price}</p>
        </div>

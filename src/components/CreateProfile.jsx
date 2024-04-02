@@ -15,7 +15,6 @@ const CreateProfile = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [title, setTitle] = useState('');
-  const [projects, setProjects] = useState('');
   const [bio, setBio] = useState('');
   const [price, setPrice] = useState('');
   const [github, setGithub] = useState('');
@@ -79,13 +78,12 @@ const CreateProfile = () => {
         name: name,
         age:parseInt(age),
         rating: 5.0,
-        projects: parseFloat(projects),
         bio: bio,
         price: price,
         github:github,
         website:website,
-        followers:0,
-        following:0,
+        followers:null,
+        following:null,
       });
     } catch (error) {
       console.error('Error:', error); // Log error if Firebase operation fails
@@ -96,9 +94,7 @@ const CreateProfile = () => {
     setName('');
     setAge('');
     setTitle('');
-    setProjects('');
     setBio('');
-    setPrice('');
     setGithub('');
     setWebsite('');
     navigate("/");
@@ -131,10 +127,6 @@ const CreateProfile = () => {
                 <input placeholder='Jetpack Compose' id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required className="bg-transparent border border-white rounded-md p-2 w-full" />
             </div>
 
-              <div>
-                <label htmlFor="projects" className="block text-white">Projects:</label>
-                <input placeholder='2' id="projects" type="number" value={projects} onChange={(e) => setProjects(e.target.value)} required className="bg-transparent border border-white rounded-md p-2 w-full" />
-              </div>
               
               <div>
               <label htmlFor="bio" className="block text-white">Bio:</label>

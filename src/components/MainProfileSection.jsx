@@ -2,31 +2,66 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ProfileIcon from "../assets/cypher.png"
 import { auth, database } from "../utils/firebase";
 import { useContext, useEffect, useState } from "react";
-import { onValue, ref } from "firebase/database";
+import { child, get, onValue, push, ref, set } from "firebase/database";
 import { UserContext } from "../contexts/UserContext";
 import { signOut } from "firebase/auth";
 import StarRating from "./StarRating";
 
 
-const MainProfileSection = ({userData}) => {  
+const MainProfileSection = ({userData,setPlzReRender}) => {  
 
   const navigate = useNavigate();
 
   const {user,isLoggedInUserProfile,setIsLoggedInUserProfile} = useContext(UserContext);
-  const [loggedInUserId,setLoggedInUserId] = useState(useParams().userId);
+  const [clickedUserId,setClickedUserId] = useState(useParams().userId);
+  const [isAlreadyFollowing,setIsAlreadyFollowing] = useState(false);
+  
 
   const [rating, setRating] = useState(0); 
 
   useEffect(()=>{
-    if(loggedInUserId && user.firebaseUser.uid){
-      if(user.firebaseUser.uid===loggedInUserId){
+    //checking if clicked user and logged in user same or not
+    if(clickedUserId && user.firebaseUser.uid){
+      if(user.firebaseUser.uid===clickedUserId){
         setIsLoggedInUserProfile(true);
       }
       else{
         setIsLoggedInUserProfile(false);
       }
     }
-  },[])
+
+
+    //checking if logged in user follows clicked user or not
+    const checkIfLoggedInUserFollowsClickedUser = async() => {
+
+      const loggedInUserId = user?.firebaseUser?.uid; 
+
+      if(!isAlreadyFollowing){
+        try{
+          //checking if loggedin user follows clicked user  
+          const followingSnapshot = await get(child(ref(database), `profiles/${loggedInUserId}/following/`));
+          if (followingSnapshot.exists()) {
+            const isFollowingClickedUser = Object.values(followingSnapshot.val()).includes(clickedUserId);
+            setIsAlreadyFollowing(isFollowingClickedUser);
+          }
+      
+          //checking if clicked user follows loggedin user
+          const followersSnapshot = await get(child(ref(database), `profiles/${clickedUserId}/followers`));
+          if (followersSnapshot.exists()) {
+            const isFollowedByLoggedInUser = Object.values(followersSnapshot.val()).includes(loggedInUserId);
+            setIsAlreadyFollowing(isFollowedByLoggedInUser);
+          }
+        }catch(error){
+          console.log(error);
+        }
+
+      }
+    }
+
+    checkIfLoggedInUserFollowsClickedUser();
+
+    
+  },[]);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -38,6 +73,34 @@ const MainProfileSection = ({userData}) => {
       .catch((error)=>{
         navigate("/error");
       })
+  }
+
+  const handleSendFollowRequest = async () => {
+    const loggedInUserId = user?.firebaseUser?.uid; 
+    setIsAlreadyFollowing(true);
+
+      try{
+        const followingSnapshot = await get(child(ref(database), `profiles/${loggedInUserId}/following/`));
+        if (followingSnapshot.exists()) {
+          const isFollowingClickedUser = Object.values(followingSnapshot.val()).includes(clickedUserId);
+          setIsAlreadyFollowing(isFollowingClickedUser);
+          if(!isFollowingClickedUser){
+            await push(ref(database, 'profiles/' + loggedInUserId + '/following'), clickedUserId);
+            await push(ref(database, 'profiles/' + clickedUserId + '/followers'), loggedInUserId);
+            setPlzReRender(true);
+          }
+        }
+        else{
+          await set(ref(database, 'profiles/' + loggedInUserId + '/following'), {});
+          await set(ref(database, 'profiles/' + clickedUserId + '/followers'), {});
+          await push(ref(database, 'profiles/' + loggedInUserId + '/following'), clickedUserId);
+          await push(ref(database, 'profiles/' + clickedUserId + '/followers'), loggedInUserId);
+          setPlzReRender(true);
+        }
+      } catch (error) {
+        console.error('Error:', error); 
+      }
+      
   }
   
   return (
@@ -67,8 +130,7 @@ const MainProfileSection = ({userData}) => {
                 :
               <div className="flex">
                 <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">💬</button>
-                <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Send Request</button>
-                {/* <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">Give Rating</button> */}
+                <button onClick={handleSendFollowRequest} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">{isAlreadyFollowing?'✔️':'Send Request'}</button>
               </div>
             }
           </div>
