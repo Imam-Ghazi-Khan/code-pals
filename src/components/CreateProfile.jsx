@@ -110,7 +110,11 @@ const CreateProfile = () => {
         <h1 className="text-2xl font-bold mb-4">Create Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
          
-          <input type="file" onChange={handleImageUpload} />
+         <div className=''>
+          <label className='block' htmlFor="upload image">Upload Your Display Picture:</label>
+          <input className='bg-transparent border border-white rounded-md p-2 w-full' type="file" onChange={handleImageUpload} />
+         </div>
+          
 
             <div>
               <label htmlFor="name" className="block text-white">Name:</label>
