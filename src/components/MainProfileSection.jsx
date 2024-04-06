@@ -102,6 +102,39 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
       }
       
   }
+
+  const handleChat = async () => {
+    const loggedInUserId = user?.firebaseUser?.uid; 
+    if(!isAlreadyFollowing){
+      alert("Please follow the user first");
+    }
+    else{
+      try{
+        const chatSnapShot = await get(child(ref(database), `profiles/${loggedInUserId}/chat/`));
+        if (chatSnapShot.exists()) {
+          const chatWithClickedUser = Object.values(chatSnapShot.val()).includes(clickedUserId);
+          if(chatWithClickedUser){
+            await push(ref(database, 'profiles/' + loggedInUserId + '/chat'), clickedUserId);
+            await push(ref(database, 'profiles/' + clickedUserId + '/chat'), loggedInUserId);
+            navigate("/chat/"+loggedInUserId+'_'+clickedUserId);
+          }
+        }
+        else{
+          await set(ref(database, 'profiles/' + loggedInUserId + '/chat'), {});
+          await set(ref(database, 'profiles/' + clickedUserId + '/chat'), {});
+          await push(ref(database, 'profiles/' + loggedInUserId + '/chat'), clickedUserId);
+          await push(ref(database, 'profiles/' + clickedUserId + '/chat'), loggedInUserId);
+          navigate("/chat/"+loggedInUserId+'_'+clickedUserId);
+
+        }
+      } catch (error) {
+        console.error('Error:', error); 
+      }
+    }
+
+
+
+  }
   
   return (
     <div className="mt-20 text-white md:p-36 p-48 bg-gradient-to-b from-violet-500 to-black relative md:text-lg">
@@ -129,7 +162,7 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
                 </div>
                 :
               <div className="flex">
-                <button className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">💬</button>
+                <button onClick={handleChat} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">💬</button>
                 <button onClick={handleSendFollowRequest} className="px-2 py-1 rounded-md bg-gray-500 bg-opacity-30 mx-2">{isAlreadyFollowing?'✔️':'Send Request'}</button>
               </div>
             }

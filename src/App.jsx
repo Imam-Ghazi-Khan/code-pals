@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import { UserProvider } from "./contexts/UserContext";
 import CreateProfile from "./components/CreateProfile";
+import ChatPage from "./components/ChatPage";
 
 const AppLayout = () => {
   return (
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
           {
             path:"/createProfile",
             element:<CreateProfile/>
+          },
+          {
+            path:"/chat/:userIds", 
+            element:<ChatPage/> 
           },
       ],
   },

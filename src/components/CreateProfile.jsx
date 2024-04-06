@@ -155,7 +155,6 @@ const CreateProfile = () => {
 
         <button onClick={handleSignOut} className="my-4 py-2 px-4 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold rounded-full">Logout</button>
 
-
       </div>
     </div>
   );
