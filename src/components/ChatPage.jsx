@@ -71,7 +71,7 @@ const ChatPage = () => {
       <div className='mx-8 md:mx-16 h-[70vh] overflow-scroll pr-4'>
         {chats.map((chat, index) => (
           <div key={index} className={`flex justify-${chat.sender === userId1 ? 'start' : 'end'}`}>
-            <div className={`max-w-[70%] p-2 bg-gradient-to-r from-violet-800 to-violet-600 rounded-lg mb-2 ${chat.sender === userId1 ? 'mr-auto' : 'ml-auto'}`}>
+            <div className={`max-w-[70%] p-2 bg-gradient-to-r from-violet-800 to-violet-600 rounded-lg mb-2 ${chat.sender === userId1 ? 'ml-auto' : 'mr-auto'}`}>
               <p className="text-green-400">{chat.sender === userId1 ? userName1 : userName2}</p>
               <p className='break-words'>{chat.message}</p>
             </div>
