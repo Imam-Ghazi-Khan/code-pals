@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ref, get, child, push, set } from 'firebase/database';
+import { ref, get, push } from 'firebase/database';
 import { database } from '../utils/firebase';
 
 const ChatPage = () => {
@@ -8,17 +8,15 @@ const ChatPage = () => {
   const [userId1, userId2] = userIds.split('_');
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
-
-  const [userName1,setUserName1] = useState("");
-  const [userName2,setUserName2] = useState("");
+  const [userName1, setUserName1] = useState("");
+  const [userName2, setUserName2] = useState("");
 
   useEffect(() => {
     const setUserNames = async () => {
-      const userName1Ref = await get(child(ref(database), `profiles/${userId1}/name/`));
-      const userName2Ref = await get(child(ref(database), `profiles/${userId2}/name/`));
-
-      setUserName1(userName1Ref._node.value_);
-      setUserName2(userName2Ref._node.value_);
+      const user1 = (await get(ref(database, `profiles/${userId1}/`))).val();
+      const user2 = (await get(ref(database, `profiles/${userId2}/`))).val();
+      setUserName1(user1.name);
+      setUserName2(user2.name);
     }
     setUserNames();
 
@@ -28,7 +26,7 @@ const ChatPage = () => {
   const getChatData = async () => {
     try {
       // Get chats for userId1
-      const userId1ChatsRef = child(ref(database), `profiles/${userId1}/chats/${userId2}/`);
+      const userId1ChatsRef = ref(database, `profiles/${userId1}/chats/${userId2}/`);
       const userId1ChatsSnapshot = await get(userId1ChatsRef);
 
       const chatTemp = [];
@@ -50,14 +48,15 @@ const ChatPage = () => {
 
   const sendMessage = async () => {
     try {
+      const timestamp = new Date().getTime();
       await push(ref(database, `profiles/${userId1}/chats/${userId2}/`), {
         message: message,
-        timestamp: new Date().getTime(),
+        timestamp: timestamp,
         sender: userId1,
       });
       await push(ref(database, `profiles/${userId2}/chats/${userId1}/`), {
         message: message,
-        timestamp: new Date().getTime(),
+        timestamp: timestamp,
         sender: userId1,
       });
       setMessage('');
@@ -69,15 +68,15 @@ const ChatPage = () => {
 
   return (
     <div className="md:mt-20 mt-28 text-white p-8 ">
-      <div className='mx-8 md:mx-16 h-[70vh] overflow-scroll'>
-        {
-        chats.map((chat, index) => (
-          <div key={index} className={chat.sender === userId1 ? 'text-left ' : 'text-right'}>
-            <p className="text-gray-600">{chat.sender + ":"}</p>
-            <p>{chat.message}</p>
+      <div className='mx-8 md:mx-16 h-[70vh] overflow-scroll pr-4'>
+        {chats.map((chat, index) => (
+          <div key={index} className={`flex justify-${chat.sender === userId1 ? 'start' : 'end'}`}>
+            <div className={`max-w-[70%] p-2 bg-gradient-to-r from-violet-800 to-violet-600 rounded-lg mb-2 ${chat.sender === userId1 ? 'mr-auto' : 'ml-auto'}`}>
+              <p className="text-green-400">{chat.sender === userId1 ? userName1 : userName2}</p>
+              <p className='break-words'>{chat.message}</p>
+            </div>
           </div>
-        ))
-        }
+        ))}
       </div>
 
       <div className="flex justify-center fixed left-0 right-0 bottom-5">
