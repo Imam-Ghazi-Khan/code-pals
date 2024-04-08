@@ -8,7 +8,7 @@ import { signOut } from "firebase/auth";
 import StarRating from "./StarRating";
 
 
-const MainProfileSection = ({userData,setPlzReRender}) => {  
+const MainProfileSection = ({userData,plzReRender,setPlzReRender}) => {  
 
   const navigate = useNavigate();
 
@@ -16,7 +16,6 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
   const [clickedUserId,setClickedUserId] = useState(useParams().userId);
   const [isAlreadyFollowing,setIsAlreadyFollowing] = useState(false);
   
-
   const [rating, setRating] = useState(0); 
 
   useEffect(()=>{
@@ -61,7 +60,7 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
     checkIfLoggedInUserFollowsClickedUser();
 
     
-  },[]);
+  },[clickedUserId,plzReRender]);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -80,23 +79,26 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
     setIsAlreadyFollowing(true);
 
       try{
-        const followingSnapshot = await get(child(ref(database), `profiles/${loggedInUserId}/following/`));
-        if (followingSnapshot.exists()) {
-          const isFollowingClickedUser = Object.values(followingSnapshot.val()).includes(clickedUserId);
-          setIsAlreadyFollowing(isFollowingClickedUser);
-          if(!isFollowingClickedUser){
+          const followingSnapshot = await get(child(ref(database), `profiles/${loggedInUserId}/following/`));
+
+          if (followingSnapshot.exists()) {
+            const isFollowingClickedUser = Object.values(followingSnapshot.val()).includes(clickedUserId);
+            setIsAlreadyFollowing(isFollowingClickedUser);
+            if(!isFollowingClickedUser){
+              await push(ref(database, 'profiles/' + loggedInUserId + '/following'), clickedUserId);
+              await push(ref(database, 'profiles/' + clickedUserId + '/followers'), loggedInUserId);
+              setPlzReRender(!plzReRender);
+            }
+          }
+          else{
+            await set(ref(database, 'profiles/' + loggedInUserId + '/following'), {});
+            await set(ref(database, 'profiles/' + clickedUserId + '/followers'), {});
             await push(ref(database, 'profiles/' + loggedInUserId + '/following'), clickedUserId);
             await push(ref(database, 'profiles/' + clickedUserId + '/followers'), loggedInUserId);
-            setPlzReRender(true);
+
+            setPlzReRender(!plzReRender);
           }
-        }
-        else{
-          await set(ref(database, 'profiles/' + loggedInUserId + '/following'), {});
-          await set(ref(database, 'profiles/' + clickedUserId + '/followers'), {});
-          await push(ref(database, 'profiles/' + loggedInUserId + '/following'), clickedUserId);
-          await push(ref(database, 'profiles/' + clickedUserId + '/followers'), loggedInUserId);
-          setPlzReRender(true);
-        }
+
       } catch (error) {
         console.error('Error:', error); 
       }
@@ -107,33 +109,10 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
     const loggedInUserId = user?.firebaseUser?.uid; 
     if(!isAlreadyFollowing){
       alert("Please follow the user first");
+      return;
     }
-    else{
-      try{
-        const chatSnapShot = await get(child(ref(database), `profiles/${loggedInUserId}/chat/`));
-        if (chatSnapShot.exists()) {
-          const chatWithClickedUser = Object.values(chatSnapShot.val()).includes(clickedUserId);
-          if(chatWithClickedUser){
-            await push(ref(database, 'profiles/' + loggedInUserId + '/chat'), clickedUserId);
-            await push(ref(database, 'profiles/' + clickedUserId + '/chat'), loggedInUserId);
-            navigate("/chat/"+loggedInUserId+'_'+clickedUserId);
-          }
-        }
-        else{
-          await set(ref(database, 'profiles/' + loggedInUserId + '/chat'), {});
-          await set(ref(database, 'profiles/' + clickedUserId + '/chat'), {});
-          await push(ref(database, 'profiles/' + loggedInUserId + '/chat'), clickedUserId);
-          await push(ref(database, 'profiles/' + clickedUserId + '/chat'), loggedInUserId);
-          navigate("/chat/"+loggedInUserId+'_'+clickedUserId);
-
-        }
-      } catch (error) {
-        console.error('Error:', error); 
-      }
-    }
-
-
-
+    setPlzReRender(!plzReRender);
+    navigate("/chat/"+loggedInUserId+"_"+clickedUserId);
   }
   
   return (
@@ -175,7 +154,8 @@ const MainProfileSection = ({userData,setPlzReRender}) => {
       </div>
       </div>
     </div>
-    )
+  )
+
 }
 
 export default MainProfileSection;

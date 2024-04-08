@@ -24,7 +24,7 @@ const CoderProfile = () => {
   return (
     <div>
       {userData && <div>
-        <MainProfileSection userData={userData} setPlzReRender={setPlzReRender}/>
+        <MainProfileSection userData={userData} plzReRender={plzReRender} setPlzReRender={setPlzReRender}/>
         <SecondaryProfileSection userData={userData} plzReRender={plzReRender}/>
       </div>}
     </div>

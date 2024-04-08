@@ -46,6 +46,10 @@ const appRouter = createBrowserRouter([
             path:"/chat/:userIds", 
             element:<ChatPage/> 
           },
+          {
+            path:"/chat", 
+            element:<ChatPage/> 
+          },
       ],
   },
 ]);
