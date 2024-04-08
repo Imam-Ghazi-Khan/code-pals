@@ -9,7 +9,19 @@ const ChatPage = () => {
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
 
+  const [userName1,setUserName1] = useState("");
+  const [userName2,setUserName2] = useState("");
+
   useEffect(() => {
+    const setUserNames = async () => {
+      const userName1Ref = await get(child(ref(database), `profiles/${userId1}/name/`));
+      const userName2Ref = await get(child(ref(database), `profiles/${userId2}/name/`));
+
+      setUserName1(userName1Ref._node.value_);
+      setUserName2(userName2Ref._node.value_);
+    }
+    setUserNames();
+
     getChatData();
   }, []);
 
@@ -38,7 +50,6 @@ const ChatPage = () => {
 
   const sendMessage = async () => {
     try {
-      // Push new message to both userId1 and userId2's chats
       await push(ref(database, `profiles/${userId1}/chats/${userId2}/`), {
         message: message,
         timestamp: new Date().getTime(),
@@ -57,19 +68,21 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="md:mt-20 mt-28 text-white p-8">
-      <div>
-        {chats.map((chat, index) => (
-            <div key={index}>
-              <p className="text-white"><span className='text-gray-600'>{chat.sender + " : "}</span>{chat.message}</p>
-            </div>
-            )
-          )}
+    <div className="md:mt-20 mt-28 text-white p-8 ">
+      <div className='mx-8 md:mx-16 h-[70vh] overflow-scroll'>
+        {
+        chats.map((chat, index) => (
+          <div key={index} className={chat.sender === userId1 ? 'text-left ' : 'text-right'}>
+            <p className="text-gray-600">{chat.sender + ":"}</p>
+            <p>{chat.message}</p>
+          </div>
+        ))
+        }
       </div>
 
-      <div className="flex justify-center absolute left-0 right-0 bottom-5">
+      <div className="flex justify-center fixed left-0 right-0 bottom-5">
         <input
-          className="mt-4 bg-transparent border p-2 md:pr-[50%]"
+          className="mt-4 bg-transparent border p-2 md:pr-[70%]"
           type="text"
           placeholder="Chat"
           value={message}
