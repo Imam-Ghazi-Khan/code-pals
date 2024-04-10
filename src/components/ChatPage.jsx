@@ -82,6 +82,7 @@ const ChatPage = () => {
       <div className="flex justify-center fixed left-0 right-0 bottom-5">
         <input
           className="mt-4 bg-transparent border p-2 md:pr-[70%]"
+          required="true"
           type="text"
           placeholder="Chat"
           value={message}
@@ -90,7 +91,9 @@ const ChatPage = () => {
         <button
           className="mt-4 ml-2 bg-gradient-to-r from-violet-800 to-violet-500 text-white font-bold py-2 px-4 rounded-full"
           type="button"
-          onClick={sendMessage}
+          onClick={()=>{
+            if(message) sendMessage();
+          }}
         >
           Send
         </button>

@@ -60,7 +60,7 @@ const MainProfileSection = ({userData,plzReRender,setPlzReRender}) => {
     checkIfLoggedInUserFollowsClickedUser();
 
     
-  },[clickedUserId,plzReRender]);
+  },[clickedUserId,plzReRender,isAlreadyFollowing]);
 
   const handleSignOut = () => {
     signOut(auth)
