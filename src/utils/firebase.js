@@ -11,19 +11,19 @@ import { getStorage } from "@firebase/storage";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyBW5Z4Scz1KG0mn8JGMI-C4YEZkcofR1Lw",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 
-  authDomain: "codepals-45aa9.firebaseapp.com",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
 
-  projectId: "codepals-45aa9",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
 
-  storageBucket: "codepals-45aa9.appspot.com",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 
-  messagingSenderId: "1069814787391",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
 
-  appId: "1:1069814787391:web:f83d0a360f4a01d56a378a",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 
-  measurementId: "G-TRLS94S1YZ"
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 
 };
 
