@@ -1,3 +1,3 @@
-#VITE REACT APP
+VITE REACT APP
 
-##Edit Firebase.js to add your own api key and other variables
+Edit Firebase.js to add your own api key and other variables
